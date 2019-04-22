@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="wizard_Decripcion_view">
+		<field name="name">wizard.form</field>
+		<field name="model">wizard_up</field>
+		<field name="arch" type="xml">
+			<form string="description">
+				<group>
+					<field name="product_ids"/>
+				</group>
+				<footer>
+					<button string="Actualizar descricipcion" name="update_descrip" type="object" class="oe_highlight"/>
+					<button string="Cancelar" class="btn-default" special="cancel"/>
+				</footer>				
+			</form>
+		</field>
+	</record>
+	<act_window
+		id="action_update_descrip"
+		multi="True"
+		key2="client_action_multi"
+		name="update description"
+		res_model="wizard_up"
+		src_model="product.template"
+		view_mode="form"
+		target="new"/>
+	</data>
+</odoo>
+
