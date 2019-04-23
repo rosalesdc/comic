@@ -22,4 +22,9 @@ class Wizard_Descripcion(models.TransientModel):
                 editoriales += editorial.name
             for author in record.x_autor:
                 authores += author.name + ", "
-            record.description_sale+=(" * Autor(es): "+authores+" Editorial: "+editoriales)
+            descripcion=record.description_sale
+            if descripcion==False:
+                record.description_sale=" * Autor(es): "+authores+" Editorial: "+editoriales
+            else:
+                record.description_sale=descripcion+" * Autor(es): "+authores+" Editorial: "+editoriales
+            #record.description_sale+=(" * Autor(es): "+authores+" Editorial: "+editoriales)
