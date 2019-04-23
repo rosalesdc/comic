@@ -30,9 +30,14 @@ class add_fields(models.Model):
             authores += author.name + ", "
         descripcion=producto_creado.description_sale
         if descripcion==False:
+            print("ES FALSO")
             producto_creado.description_sale=" * Autor(es): "+authores+" Editorial: "+editoriales
         else:
-            producto_creado.description_sale=descripcion+" * Autor(es): "+authores+" Editorial: "+editoriales
+            lista=producto_creado.description_sale.split("*")
+            nueva_descripcion=lista[0]
+            nueva_descripcion+=" * Autor(es): "+authores+" Editorial: "+editoriales
+            #print(nueva_descripcion)
+            producto_creado.description_sale=nueva_descripcion
         return producto_creado
     
     @api.multi
@@ -52,6 +57,6 @@ class add_fields(models.Model):
         else:
             lista=descripcion.split("*")
             nueva_descripcion=lista[0]
-            nueva_descripcion=descripcion+" * Autor(es): "+authores+" Editorial: "+editoriales
+            nueva_descripcion+=" * Autor(es): "+authores+" Editorial: "+editoriales
         vals['description_sale']=nueva_descripcion
         producto_actualizado=super(add_fields, self).write(vals)
