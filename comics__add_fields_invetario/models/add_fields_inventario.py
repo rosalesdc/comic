@@ -36,19 +36,25 @@ class add_fields(models.Model):
             producto_creado.description_sale=descripcion+" * Autor(es): "+authores+" Editorial: "+editoriales
         return producto_creado
     
-#    @api.multi
-#    def write(self, vals):
-#        producto_actualizado=super(add_fields, self).write(vals)
-#        
-#        editoriales = ""
-#        authores = ""
-#        for editorial in self.x_editorial:
-#            editoriales += editorial.name
-#        for author in self.x_autor:
-#            authores += author.name + ", "
-#        descripcion=self.description_sale
-#        if descripcion==False:
-#            self.description_sale=" * Autor(es): "+authores+" Editorial: "+editoriales
-#        else:
-#            self.description_sale=descripcion+" * Autor(es): "+authores+" Editorial: "+editoriales
-#        return producto_actualizado
+    @api.multi
+    def write(self, vals):
+        self.ensure_one()
+        producto_actualizado=super(add_fields, self).write(vals)    
+        #generar la nueva descripción del producto
+        editoriales = ""
+        authores = ""
+        nueva_descripcion=""
+        for editorial in self.x_editorial:
+            editoriales += editorial.name
+        for author in self.x_autor:
+            authores += author.name + ", "
+        descripcion=self.description_sale
+        if descripcion==False:
+            nueva_descripcion=" * Autor(es): "+authores+" Editorial: "+editoriales
+        else:
+            lista=descripcion.split("*")
+            nueva_descripcion=lista[0]
+            nueva_descripcion=descripcion+" * Autor(es): "+authores+" Editorial: "+editoriales
+        
+        vals['description_sale']=nueva_descripcion
+        producto_actualizado=super(add_fields, self).write(vals)
